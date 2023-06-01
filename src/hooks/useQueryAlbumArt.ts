@@ -45,6 +45,7 @@ function useQueryAlbumArt({ song, artist }: { song: string; artist: string }) {
 	return useQuery({
 		queryKey,
 		queryFn,
+		retryDelay: 30 * 1000,
 		enabled: song != null && artist != null
 	});
 }
