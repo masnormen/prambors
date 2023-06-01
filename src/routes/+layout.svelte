@@ -14,7 +14,7 @@
 		menus={[
 			{ text: 'Home', href: '/' },
 			{ text: 'Prambors ↗', href: 'https://pramborsfm.com' },
-			{ text: 'GitHub ↗', href: 'https://github.com/masnormen' }
+			{ text: 'GitHub ↗', href: 'https://github.com/masnormen/prambors' }
 		]}
 	/>
 	<slot />
