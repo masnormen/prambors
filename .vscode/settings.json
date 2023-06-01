@@ -1,0 +1,22 @@
+{
+	"json.schemaDownload.enable": true,
+	"eslint.format.enable": true,
+	"eslint.validate": ["javascript", "javascriptreact", "svelte", "css"],
+	"eslint.probe": ["svelte", "javascript", "css"],
+	"eslint.codeAction.showDocumentation": {
+		"enable": true
+	},
+	"svelte-intellisense.trace.server": "verbose",
+	"svelte.plugin.svelte.format.enable": true,
+	"svelte.plugin.svelte.format.config.svelteSortOrder": "options-markup-styles-scripts",
+	"svelte.plugin.css.completions.enable": true,
+	"svelte.plugin.css.diagnostics.enable": true,
+	"svelte.plugin.svelte.diagnostics.enable": true,
+	"svelte.plugin.typescript.diagnostics.enable": false,
+	"[svelte]": {
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnPaste": true,
+		"editor.formatOnType": true
+	}
+}
