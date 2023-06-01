@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { type PlayerContextProps } from 'headless-audioplayer-svelte';
-	import { getContext } from 'svelte';
+	import { writable } from 'svelte/store';
 
+	import { PRAMBORS_STREAM_MP3_URL } from '$/constants/url';
 	import useQueryAlbumArt from '$/hooks/useQueryAlbumArt';
 	import useQueryNowPlaying from '$/hooks/useQueryNowPlaying';
 
+	import AudioVisualizer from './AudioVisualizer.svelte';
 	import PlayButton from './PlayButton.svelte';
 
 	const nowPlaying = useQueryNowPlaying();
@@ -13,7 +14,14 @@
 		artist: $nowPlaying.data?.track_artist_name
 	});
 
-	const { togglePlay } = getContext<PlayerContextProps>('playerContext');
+	let audio: HTMLAudioElement;
+
+	const isPlaying = writable(false);
+
+	$: togglePlay = () => {
+		audio?.paused ? audio?.play() : audio?.pause();
+		isPlaying.set(!audio?.paused);
+	};
 
 	const handleKeyDown = (event: KeyboardEvent) => {
 		if (event.key === ' ') {
@@ -25,7 +33,11 @@
 
 <svelte:window on:keydown={handleKeyDown} />
 
-{#if $nowPlaying.isLoading || $albumArt.isLoading}
+<audio bind:this={audio} controls crossorigin="anonymous" class="pointer-events-none hidden">
+	<source src={PRAMBORS_STREAM_MP3_URL} type="audio/mpeg" />
+</audio>
+
+{#if $nowPlaying.isLoading}
 	<div class="flex h-full w-full items-center justify-center">Loading...</div>
 {:else}
 	<div
@@ -66,7 +78,8 @@
 				alt={$nowPlaying.data?.cue_title}
 				class="animate-spin-cd pointer-events-none aspect-square w-2/3 select-none rounded-full border border-black text-[0]"
 			/>
-			<PlayButton />
+			<PlayButton bind:togglePlay isPlaying={$isPlaying} />
+			<AudioVisualizer {audio} isPlaying={$isPlaying} />
 		</div>
 	</section>
 {/if}
@@ -74,7 +87,7 @@
 <style>
 	@keyframes spin-cd {
 		to {
-			transform: rotate(-360deg);
+			transform: rotate(360deg);
 		}
 	}
 	.animate-spin-cd {
